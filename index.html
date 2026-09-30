@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Jose A. Lemos - Frontend Developer portfolio and resume.">
+	<title>Jose A. Lemos | Frontend Developer</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #18221f;
+			--muted: #64716d;
+			--paper: #f4f5ef;
+			--white: #fbfcf7;
+			--line: #d9dfd8;
+			--lime: #d8f263;
+			--coral: #ff765f;
+			--teal: #075e59;
+			--mono: "DM Mono", monospace;
+			--sans: "Manrope", sans-serif;
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			background: var(--paper);
+			color: var(--ink);
+			font-family: var(--sans);
+			line-height: 1.6;
+		}
+		a { color: inherit; text-decoration: none; }
+		button { font: inherit; }
+		.shell { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+
+		header {
+			border-bottom: 1px solid var(--line);
+			background: rgba(244, 245, 239, .92);
+			position: sticky;
+			top: 0;
+			z-index: 10;
+			backdrop-filter: blur(14px);
+		}
+		.nav {
+			height: 78px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.brand { font-weight: 800; letter-spacing: -.05em; font-size: 1.1rem; }
+		.brand span { color: var(--coral); }
+		.nav-links { display: flex; gap: 30px; align-items: center; font-size: .78rem; font-weight: 700; }
+		.nav-links a { color: var(--muted); transition: color .2s ease; }
+		.nav-links a:hover { color: var(--ink); }
+		.nav-links .nav-cta { color: var(--ink); border: 1px solid var(--ink); padding: 9px 14px; border-radius: 2px; }
+		.menu-toggle { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; font-size: 1.6rem; }
+
+		.hero {
+			min-height: 670px;
+			padding: 106px 0 90px;
+			display: grid;
+			grid-template-columns: 1.12fr .88fr;
+			gap: 80px;
+			align-items: center;
+			position: relative;
+			overflow: hidden;
+		}
+		.hero:after {
+			content: "";
+			width: 440px;
+			height: 440px;
+			border: 1px solid rgba(7, 94, 89, .18);
+			border-radius: 50%;
+			position: absolute;
+			right: -170px;
+			top: 40px;
+			z-index: -1;
+		}
+		.eyebrow, .section-kicker {
+			font: 500 .7rem var(--mono);
+			letter-spacing: .12em;
+			text-transform: uppercase;
+			color: var(--teal);
+		}
+		h1 {
+			margin: 18px 0 24px;
+			max-width: 680px;
+			font-size: clamp(3.6rem, 7vw, 6.6rem);
+			letter-spacing: -.09em;
+			line-height: .96;
+			font-weight: 800;
+		}
+		h1 em { color: var(--coral); font-style: normal; }
+		.hero-copy { max-width: 525px; color: var(--muted); font-size: 1.05rem; }
+		.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+		.button {
+			display: inline-flex;
+			align-items: center;
+			gap: 11px;
+			padding: 14px 20px;
+			font-size: .78rem;
+			font-weight: 800;
+			border: 1px solid var(--ink);
+			transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+		}
+		.button:hover { transform: translate(-3px, -3px); box-shadow: 4px 4px 0 var(--ink); }
+		.button.primary { background: var(--lime); }
+		.button.secondary { background: transparent; }
+		.button .arrow { font-size: 1.1rem; line-height: 0; }
+
+		.profile-mark { position: relative; min-height: 380px; display: grid; place-items: center; }
+		.profile-ring { width: 320px; height: 320px; border: 1px solid var(--teal); border-radius: 50%; position: relative; }
+		.profile-ring:before, .profile-ring:after { content: ""; position: absolute; background: var(--teal); }
+		.profile-ring:before { height: 1px; width: 130%; left: -15%; top: 50%; }
+		.profile-ring:after { width: 1px; height: 130%; top: -15%; left: 50%; }
+		.initials {
+			position: absolute;
+			inset: 42px;
+			border-radius: 50%;
+			background: var(--teal);
+			color: var(--lime);
+			display: grid;
+			place-items: center;
+			font-size: 5rem;
+			font-weight: 800;
+			letter-spacing: -.1em;
+			padding-right: 14px;
+			z-index: 1;
+		}
+		.orbit-label { position: absolute; color: var(--teal); font: 500 .68rem var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+		.orbit-label.top { top: 0; left: 50%; transform: translateX(-50%); }
+		.orbit-label.right { right: -20px; top: 50%; transform: rotate(90deg) translateX(50%); }
+		.orbit-label.bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+		.availability { position: absolute; bottom: 22px; left: 0; display: flex; gap: 9px; align-items: center; font: 500 .67rem var(--mono); color: var(--muted); }
+		.availability:before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #62bd59; }
+
+		.stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+		.stat { padding: 25px 0; display: flex; align-items: baseline; gap: 13px; }
+		.stat + .stat { border-left: 1px solid var(--line); padding-left: 38px; }
+		.stat strong { font-size: 2rem; letter-spacing: -.07em; }
+		.stat span { color: var(--muted); font-size: .76rem; }
+
+		section { padding: 110px 0; }
+		.section-heading { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; margin-bottom: 55px; }
+		h2 { margin: 0; font-size: clamp(2.3rem, 4.6vw, 4rem); letter-spacing: -.08em; line-height: 1; }
+		.section-intro { color: var(--muted); max-width: 510px; margin: 0; }
+		.about { background: var(--white); }
+		.about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 100px; align-items: start; }
+		.about-copy { font-size: 1.35rem; line-height: 1.45; letter-spacing: -.03em; max-width: 660px; }
+		.about-copy strong { color: var(--teal); }
+		.details { border-top: 1px solid var(--line); }
+		.detail { display: flex; justify-content: space-between; gap: 30px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: .8rem; }
+		.detail span:first-child { color: var(--muted); }
+		.detail span:last-child { text-align: right; font-weight: 700; }
+
+		.experience-list { border-top: 1px solid var(--line); }
+		.experience-item { display: grid; grid-template-columns: .65fr 1fr 1.4fr; gap: 30px; padding: 27px 0; border-bottom: 1px solid var(--line); }
+		.experience-date { color: var(--muted); font: .72rem var(--mono); }
+		.experience-role { font-weight: 800; }
+		.experience-company { color: var(--teal); font-size: .82rem; margin-top: 3px; }
+		.experience-item p { color: var(--muted); font-size: .82rem; margin: 0; }
+
+		.projects { background: var(--teal); color: var(--white); }
+		.projects .section-kicker { color: var(--lime); }
+		.projects .section-intro { color: #b5cbc5; }
+		.project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+		.project { min-height: 300px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(251, 252, 247, .25); transition: transform .25s ease, background .25s ease; }
+		.project:hover { background: rgba(251, 252, 247, .08); transform: translateY(-6px); }
+		.project:nth-child(2) { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+		.project:nth-child(3) { background: var(--coral); color: var(--ink); border-color: var(--coral); }
+		.project-number { font: .7rem var(--mono); opacity: .7; }
+		.project h3 { margin: 0 0 8px; font-size: 1.55rem; letter-spacing: -.06em; }
+		.project p { margin: 0; font-size: .8rem; opacity: .75; max-width: 380px; }
+		.project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+		.project-tags span { font: .64rem var(--mono); border: 1px solid currentColor; padding: 4px 7px; opacity: .75; }
+
+		.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+		.skill-group { border-top: 2px solid var(--ink); padding-top: 16px; }
+		.skill-group h3 { margin: 0 0 17px; font-size: .85rem; }
+		.skill-group p { margin: 0; color: var(--muted); font-size: .8rem; line-height: 2; }
+
+		.contact { background: var(--coral); }
+		.contact-layout { display: flex; align-items: end; justify-content: space-between; gap: 50px; }
+		.contact h2 { max-width: 720px; }
+		.contact-copy { margin: 22px 0 0; max-width: 440px; font-size: .9rem; }
+		.contact-links { display: flex; flex-direction: column; gap: 12px; min-width: 230px; }
+		.contact-links a { display: flex; justify-content: space-between; border-bottom: 1px solid var(--ink); padding-bottom: 9px; font-size: .78rem; font-weight: 800; }
+		footer { padding: 24px 0; background: var(--ink); color: #b8c4bd; font: .65rem var(--mono); }
+		.footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+
+		@media (max-width: 800px) {
+			.shell { width: min(100% - 32px, 620px); }
+			.nav { height: 68px; }
+			.menu-toggle { display: block; }
+			.nav-links { display: none; position: absolute; left: 0; right: 0; top: 68px; padding: 18px 16px 22px; background: var(--paper); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 17px; }
+			.nav-links.open { display: flex; }
+			.nav-links .nav-cta { text-align: center; }
+			.hero { grid-template-columns: 1fr; gap: 50px; padding: 76px 0 70px; min-height: auto; }
+			.hero h1 { font-size: clamp(3.4rem, 16vw, 5.5rem); }
+			.profile-mark { min-height: 330px; }
+			.profile-ring { width: 260px; height: 260px; }
+			.initials { inset: 35px; font-size: 4.1rem; }
+			.stats { grid-template-columns: 1fr; }
+			.stat, .stat + .stat { border-left: 0; padding: 16px 0; }
+			.stat + .stat { border-top: 1px solid var(--line); }
+			section { padding: 75px 0; }
+			.section-heading, .about-grid { grid-template-columns: 1fr; gap: 25px; }
+			.about-copy { font-size: 1.15rem; }
+			.experience-item { grid-template-columns: 1fr; gap: 7px; }
+			.experience-item p { margin-top: 10px; }
+			.project-grid { grid-template-columns: 1fr; }
+			.project { min-height: 255px; }
+			.skills-grid { grid-template-columns: 1fr 1fr; row-gap: 35px; }
+			.contact-layout { flex-direction: column; align-items: start; }
+			.contact-links { width: 100%; }
+			.footer-inner { flex-direction: column; gap: 6px; }
+		}
+
+		@media print {
+			header, .hero-actions, .profile-mark, .projects, .contact, footer { display: none; }
+			.hero { min-height: auto; padding: 25px 0; display: block; }
+			section { padding: 25px 0; }
+			.about { background: white; }
+			.shell { width: 100%; }
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="shell nav">
+			<a class="brand" href="#top">J<span>.</span> Lemos</a>
+			<button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">+</button>
+			<nav class="nav-links" aria-label="Main navigation">
+				<a href="#about">About</a>
+				<a href="#experience">Experience</a>
+				<a href="#work">Selected work</a>
+				<a href="#contact" class="nav-cta">Let's talk <span aria-hidden="true">-></span></a>
+			</nav>
+		</div>
+	</header>
+
+	<main id="top">
+		<div class="shell hero">
+			<div>
+				<div class="eyebrow">Portfolio / Resume 2026</div>
+				<h1>I like the <em>SCRUMPY.</em></h1>
+				<p class="hero-copy">dfnjoiwwidjwojwaon awaaaaa what is this?</p>
+				<div class="hero-actions">
+					<a class="button primary" href="#work">See my work <span class="arrow" aria-hidden="true">-></span></a>
+					<a class="button secondary" href="mailto:hello@joselemos.dev">Get in touch <span class="arrow" aria-hidden="true">↗</span></a>
+				</div>
+			</div>
+			<div class="profile-mark" aria-label="Jose A. Lemos monogram">
+				<div class="profile-ring">
+					<div class="initials">???</div>
+					<span class="orbit-label top">Lamp oil</span>
+					<span class="orbit-label right">Ropes</span>
+					<span class="orbit-label bottom">Bombs</span>
+				</div>
+				<div class="availability">Idk what to put here</div>
+			</div>
+		</div>
+
+		<div class="shell stats" aria-label="Career highlights">
+			<div class="stat"><strong>4+</strong><span>years doing nothing</span></div>
+			<div class="stat"><strong>18</strong><span>Bombs</span></div>
+			<div class="stat"><strong>100%</strong><span>Lack of mind</span></div>
+		</div>
+
+		<section class="about" id="about">
+			<div class="shell">
+				<div class="section-heading">
+					<div class="section-kicker">01 / About meh</div>
+					<p class="section-intro">A little context about the...?</p>
+				</div>
+				<div class="about-grid">
+					<p class="about-copy">I care about the YES where <strong>yes.</strong> My work combines a YES with YES, helping YES make YES that feel as YES as they work.</p>
+					<div class="details">
+						<div class="detail"><span>Based in</span><span>i wont give my location</span></div>
+						<div class="detail"><span>Focus</span><span>what is a focus</span></div>
+						<div class="detail"><span>Languages</span><span>English, English, English, English, English, English</span></div>
+						<div class="detail"><span>Currently</span><span>Open to what</span></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="experience">
+			<div class="shell">
+				<div class="section-heading">
+					<div class="section-kicker">02 / Experience</div>
+					<p class="section-intro">Places where I have NO, NO, and made the NO a little more NO.</p>
+				</div>
+				<div class="experience-list">
+					<article class="experience-item">
+						<div class="experience-date">10.00 A. C.-infinite</div>
+						<div><div class="experience-role">Huh?</div><div class="experience-company">What do i neet to place here?</div></div>
+						<p>Uhh...</p>
+					</article>
+					<article class="experience-item">
+						<div class="experience-date">infinity - NAN</div>
+						<div><div class="experience-role">Error 404 - there was a error loading this text</div><div class="experience-company">404 - file not found</div></div>
+						<p>404 - file not found</p>
+					</article>
+					<article class="experience-item">
+						<div class="experience-date">Nan - ACTUALLY A NUMBER!!!</div>
+						<div><div class="experience-role">Unity apprentice</div><div class="experience-company">idgaf</div></div>
+						<p>Is learning Unity</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="projects" id="work">
+			<div class="shell">
+				<div class="section-heading">
+					<div class="section-kicker">03 / Selected work</div>
+					<p class="section-intro">A few BONES of how BONES BONES, BONES, and bring BONES into the BONES BONES.</p>
+				</div>
+				<div class="project-grid">
+					<a class="project" href="#contact">
+						<span class="project-number">01 / PROOODUCCCCCCT</span>
+						<div><h3>Magic in my bones</h3><p>Bones bones bones bones that bones bones bones what bones next.</p><div class="project-tags"><span>Magic</span><span>In my</span><span>bones</span></div></div>
+					</a>
+					<a class="project" href="#contact">
+						<span class="project-number">02 / wobble</span>
+						<div><h3>wobble</h3><p>3.14159265358979323846 26433832795028841971693993751058209749445923078164 062862089986280348253421170679</p><div class="project-tags"><span>Yeah</span><span>it's</span><span>pi</span></div></div>
+					</a>
+					<a class="project" href="#contact">
+						<span class="project-number">03 / Trigonometric functions</span>
+						<div><h3>Im gonna list them</h3><p>sine, cosine, tangent, cotangent, secant, cosecant, arc sine, arc cosine, arc tangent, arc cotangent, arc secant, arc cosecant</p><div class="project-tags"><span>Yes</span><span>I</span><span>Did</span></div></div>
+					</a>
+					<a class="project" href="#contact">
+						<span class="project-number">04 / Im running out of ideas</span>
+						<div><h3>H3</h3><p>P</p><div class="project-tags"><span>span</span><span>span</span><span>span</span></div></div>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<div class="shell">
+				<div class="section-heading">
+					<div class="section-kicker">04 / Toolcut</div>
+					<p class="section-intro">WWWOOOWOWOWOWOWOOWOOWOOWOWOOWOWOWOOWOWOWOWOOWOWOWOWOOWOWOOWOWOOWOWOWOWOWO</p>
+				</div>
+				<div class="skills-grid">
+					<div class="skill-group"><h3>unity</h3><p>unity<br>unity<br>unity<br>unity</p></div>
+					<div class="skill-group"><h3>unity</h3><p>unity<br>unity<br>unity<br>unity</p></div>
+					<div class="skill-group"><h3>unity</h3><p>unity<br>unity<br>unity unity<br>unity</p></div>
+					<div class="skill-group"><h3>unity</h3><p>unity<br>unityt<br>unity<br>unity</p></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="contact" id="contact">
+			<div class="shell contact-layout">
+				<div><div class="section-kicker">huh</div><h2>huh</h2><p class="contact-copy">huh</p></div>
+				<div class="contact-links"><a href="mailto:hello@joselemos.dev">huh<span>↗</span></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">huh<span>↗</span></a><a href="https://github.com" target="_blank" rel="noreferrer">huh<span>↗</span></a></div>
+			</div>
+		</section>
+	</main>
+
+	<footer><div class="shell footer-inner"><span>© 2026 Jose A. Lemos</span><span>Designed & built with intention.</span></div></footer>
+	<script>
+		const menuButton = document.querySelector('.menu-toggle');
+		const navigation = document.querySelector('.nav-links');
+		menuButton.addEventListener('click', () => {
+			const isOpen = navigation.classList.toggle('open');
+			menuButton.setAttribute('aria-expanded', isOpen);
+			menuButton.textContent = isOpen ? 'x' : '+';
+		});
+		navigation.querySelectorAll('a').forEach((link) => {
+			link.addEventListener('click', () => {
+				navigation.classList.remove('open');
+				menuButton.setAttribute('aria-expanded', 'false');
+				menuButton.textContent = '+';
+			});
+		});
+	</script>
+</body>
+</html>
